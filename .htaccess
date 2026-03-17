@@ -1,0 +1,53 @@
+# 虚拟主机Apache配置文件
+# 用于URL重写和性能优化
+
+# 开启Rewrite引擎
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /
+
+# 首页重定向到 index_v2024.asp
+RewriteRule ^$ index_v2024.asp [L]
+
+# 将 /employee/123 重写为 /employee.php?id=123
+RewriteRule ^employee/([0-9]+)/?$ employee.php?id=$1 [L,QSA]
+
+# API接口保留
+RewriteRule ^api/(.*)$ api_sync.php [L,QSA]
+</IfModule>
+
+# 设置默认字符集
+AddDefaultCharset UTF-8
+
+# 开启gzip压缩
+<IfModule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/html text/css text/javascript application/javascript
+</IfModule>
+
+# 设置缓存
+<IfModule mod_expires.c>
+ExpiresActive On
+ExpiresByType image/jpeg "access plus 1 month"
+ExpiresByType image/png "access plus 1 month"
+ExpiresByType text/css "access plus 1 week"
+ExpiresByType application/javascript "access plus 1 week"
+</IfModule>
+
+# 禁止访问敏感文件
+<FilesMatch "^\.">
+Order allow,deny
+Deny from all
+</FilesMatch>
+
+<FilesMatch "\.(sql|log|ini)$">
+Order allow,deny
+Deny from all
+</FilesMatch>
+
+# PHP设置
+<IfModule php7_module>
+php_value upload_max_filesize 10M
+php_value post_max_size 10M
+php_value max_execution_time 300
+php_value max_input_time 300
+</IfModule>

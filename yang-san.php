@@ -1,0 +1,325 @@
+<?php
+/**
+ * 杨三 - 员工档案展示页面
+ * 网址: scjmj.cn/yang-san.php
+ */
+?>
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>杨三 - 员工档案 - 四川嘉美净清洁服务有限公司</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #f5a623 0%, #f09340 50%, #e85d04 100%);
+            min-height: 100vh;
+            color: #333;
+            padding: 20px;
+        }
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+        }
+        .header {
+            text-align: center;
+            padding: 20px 0;
+            color: white;
+        }
+        .header h1 {
+            font-size: 24px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .header p {
+            font-size: 14px;
+            opacity: 0.9;
+        }
+        .profile-card {
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .profile-header {
+            background: linear-gradient(135deg, #e85d04 0%, #f5a623 100%);
+            color: white;
+            padding: 40px 30px;
+            text-align: center;
+            position: relative;
+        }
+        .profile-photo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            border: 5px solid rgba(255,255,255,0.4);
+            background: white;
+            margin: 0 auto 20px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 70px;
+            color: #ccc;
+            box-shadow: 0 8px 30px rgba(0,0,0,0.2);
+        }
+        .profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .profile-name {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 10px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .profile-badge {
+            display: inline-block;
+            background: rgba(255,255,255,0.25);
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-size: 14px;
+            backdrop-filter: blur(10px);
+        }
+        .profile-body {
+            padding: 30px;
+        }
+        .info-section {
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #e85d04;
+            margin-bottom: 15px;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #f5a623;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+        }
+        .info-item {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+            padding: 15px;
+            border-radius: 12px;
+            text-align: center;
+            border: 1px solid #ffe4cc;
+        }
+        .info-item-icon {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        .info-item-value {
+            font-size: 18px;
+            font-weight: 700;
+            color: #e85d04;
+            margin-bottom: 3px;
+        }
+        .info-item-label {
+            font-size: 12px;
+            color: #888;
+        }
+        .skills-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+        .skill-badge {
+            background: linear-gradient(135deg, #e85d04 0%, #f5a623 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(232,93,4,0.3);
+        }
+        .intro-text {
+            line-height: 1.8;
+            color: #555;
+            font-size: 15px;
+        }
+        .intro-text p {
+            margin-bottom: 12px;
+            text-indent: 2em;
+        }
+        .highlight-box {
+            background: linear-gradient(135deg, #fff9f0 0%, #fff5e6 100%);
+            border-left: 4px solid #f5a623;
+            padding: 15px 20px;
+            border-radius: 0 12px 12px 0;
+            margin: 15px 0;
+        }
+        .highlight-box p {
+            text-indent: 0;
+            margin: 0;
+            color: #666;
+        }
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: 25px;
+        }
+        .btn-primary, .btn-secondary {
+            flex: 1;
+            padding: 16px 30px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
+            text-decoration: none;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #e85d04 0%, #f5a623 100%);
+            color: white;
+            box-shadow: 0 4px 15px rgba(232,93,4,0.4);
+        }
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(232,93,4,0.5);
+        }
+        .btn-secondary {
+            background: white;
+            color: #e85d04;
+            border: 2px solid #e85d04;
+        }
+        .btn-secondary:hover {
+            background: #fff9f0;
+        }
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: rgba(255,255,255,0.9);
+            font-size: 13px;
+        }
+        .footer a {
+            color: white;
+            text-decoration: none;
+        }
+        @media (max-width: 480px) {
+            body { padding: 10px; }
+            .profile-header { padding: 30px 20px; }
+            .profile-photo { width: 120px; height: 120px; }
+            .profile-name { font-size: 28px; }
+            .profile-body { padding: 20px; }
+            .info-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+            .info-item { padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>四川嘉美净清洁服务有限公司</h1>
+            <p>专业家政服务，让您的生活更美好</p>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-header">
+                <div class="profile-photo">
+                    <img src="/uploads/yangsan_photo.jpg" alt="杨三" onerror="this.style.display='none'; this.parentNode.innerHTML='👤';">
+                </div>
+                <div class="profile-name">杨三</div>
+                <span class="profile-badge">专业家政服务人员</span>
+            </div>
+
+            <div class="profile-body">
+                <!-- 基本信息 -->
+                <div class="info-section">
+                    <div class="section-title">📋 基本信息</div>
+                    <div class="info-grid">
+                        <div class="info-item">
+                            <div class="info-item-icon">🎂</div>
+                            <div class="info-item-value">33岁</div>
+                            <div class="info-item-label">年龄</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-icon">🐵</div>
+                            <div class="info-item-value">属猴</div>
+                            <div class="info-item-label">属相</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-icon">⚖️</div>
+                            <div class="info-item-value">120斤</div>
+                            <div class="info-item-label">体重</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-icon">📏</div>
+                            <div class="info-item-value">158cm</div>
+                            <div class="info-item-label">身高</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-icon">♌</div>
+                            <div class="info-item-value">狮子座</div>
+                            <div class="info-item-label">星座</div>
+                        </div>
+                        <div class="info-item">
+                            <div class="info-item-icon">💼</div>
+                            <div class="info-item-value">3年+</div>
+                            <div class="info-item-label">从业经验</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 专业技能 -->
+                <div class="info-section">
+                    <div class="section-title">🎯 专业技能</div>
+                    <div class="skills-list">
+                        <span class="skill-badge">日常保洁</span>
+                        <span class="skill-badge">深度清洁</span>
+                        <span class="skill-badge">家常菜烹饪</span>
+                        <span class="skill-badge">衣物整理</span>
+                        <span class="skill-badge">家居保养</span>
+                        <span class="skill-badge">钟点工服务</span>
+                    </div>
+                </div>
+
+                <!-- 个人简介 -->
+                <div class="info-section">
+                    <div class="section-title">👩 个人简介</div>
+                    <div class="intro-text">
+                        <p>杨三，四川本地人，从事家政服务行业已有三年多时间。性格踏实肯干，做事认真负责，深受客户好评。</p>
+                        <p>之前主要从事保洁工作，积累了丰富的家庭清洁经验，熟悉各种清洁工具和清洁剂的使用，能够高效完成日常保洁和深度清洁任务。</p>
+                        <div class="highlight-box">
+                            <p><strong>擅长烹饪：</strong>家常菜做得还不错，会做一些简单的川菜和家常菜，能够满足日常家庭用餐需求。</p>
+                        </div>
+                        <p>工作态度端正，守时守信，注重细节，能够根据客户需求灵活调整服务内容。希望找一份白班保姆或者钟点工的工作，期待为您服务！</p>
+                    </div>
+                </div>
+
+                <!-- 服务优势 -->
+                <div class="info-section">
+                    <div class="section-title">✨ 服务优势</div>
+                    <div class="highlight-box">
+                        <p>✓ 多年保洁经验，清洁技能娴熟</p>
+                        <p>✓ 会做家常菜，可兼顾简单烹饪</p>
+                        <p>✓ 性格温和，好沟通，服务意识强</p>
+                        <p>✓ 时间灵活，可接白班或钟点工</p>
+                    </div>
+                </div>
+
+                <div class="action-buttons">
+                    <a href="tel:0816-2348822" class="btn-primary">📞 预约服务</a>
+                    <a href="/employee.php" class="btn-secondary">查看更多员工</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>联系电话：0816-2348822 | <a href="/">返回公司首页</a></p>
+            <p>© 2026 四川嘉美净清洁服务有限公司 版权所有</p>
+        </div>
+    </div>
+</body>
+</html>
